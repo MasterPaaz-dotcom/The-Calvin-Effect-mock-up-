@@ -190,3 +190,4 @@ select.plain{display:block;width:100%;min-height:52px;border-radius:14px;border:
 .brand-logo{display:block;height:44px;width:auto;max-width:100%}
 video.demo{border-radius:14px;background:#000}
 .seg.prog button{font-size:12px;letter-spacing:.02em;padding:0 2px;min-height:48px}
+.media-ph{display:grid;place-items:center;gap:4px;max-width:320px;aspect-ratio:16/9;margin:0 auto 6px;border:2px dashed var(--line);border-radius:14px;color:var(--muted);text-align:center;padding:8px}.media-ph span{font-size:28px;color:var(--accent)}.media-ph small{font-size:12px}

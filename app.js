@@ -1,5 +1,5 @@
 'use strict';
-window.EMOM_JS = 'calvin1';
+window.EMOM_JS = 'calvin2';
 /* ---------- Workout data (edit reps here) ---------- */
 const PROGRAMMES = {
   beginner: { label: 'BEGINNER', sw: 'ANZA', workouts: [
@@ -381,20 +381,20 @@ const DYN_IDS = ['pauseBtn', 'auGo', 'remNote', 'buildDialog', 'duMine', 'duInv'
 if (typeof document !== 'undefined') (function () {
   const $ = id => document.getElementById(id);
   const store = {
-    get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
-    set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+    get(k, d) { try { const v = localStorage.getItem('calvin_' + k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
+    set(k, v) { try { localStorage.setItem('calvin_' + k, JSON.stringify(v)); } catch (e) {} }
   };
 
   const sel = Object.assign({ prog: 'beginner', work: 0, mins: 12, sound: true, voice: true, level: 'normal', days: [], remTime: '18:00', lastRem: '', mamaOk: false, safeOk: false, stage: 'beginner', equip: [], lang: 'sw' }, store.get('emom_sel', {}));
   if (!Array.isArray(sel.days)) sel.days = [];
   if (!Array.isArray(sel.equip)) sel.equip = [];
-  if (!['beginner', 'advanced'].includes(sel.stage)) sel.stage = 'beginner';
+  sel.stage = 'beginner';
   // custom ("Build your own") workouts are saved on this phone, up to 5 per programme
   const customs = () => ((store.get('emom_custom', {}) || {})[sel.prog]) || [];
   const saveCustoms = arr => { const all = store.get('emom_custom', {}) || {}; all[sel.prog] = arr; store.set('emom_custom', all); };
   const toWorkout = c => { const ex = c.picks.map(exByName).filter(Boolean).map(e => [e[0], e[2], e[4]]);
     return { id: c.id, name: c.name, desc: ex.length + (ex.length === 1 ? ' move' : ' moves') + ' · 20 min', custom: true, ex: ex }; };
-  const list = () => (sel.prog !== '__none__' && sel.stage === 'advanced') ? resolveAdvanced(sel.prog, sel.equip).concat(customs().map(toWorkout).filter(w => w.ex.length)) : PROGRAMMES[sel.prog].workouts;
+  const list = () => false ? resolveAdvanced(sel.prog, sel.equip).concat(customs().map(toWorkout).filter(w => w.ex.length)) : PROGRAMMES[sel.prog].workouts;
   if (!['easy', 'normal', 'hard'].includes(sel.level)) sel.level = 'normal';
   if (!PROGRAMMES[sel.prog] || !DURATIONS.includes(sel.mins) || !list()[sel.work]) { sel.prog = 'beginner'; sel.work = 0; sel.mins = 12; }
   const saveSel = () => store.set('emom_sel', sel);
@@ -799,7 +799,10 @@ if (typeof document !== 'undefined') (function () {
   const slug = n => n.toLowerCase().replace(/[^a-z]+/g, '-').replace(/^-|-$/g, '');
   const demoSrc = n => 'ex-' + slug(n) + '.svg';
   /* VIDEO: put videos/<exercise-slug>.mp4 (e.g. videos/push-ups.mp4). If the file exists it plays in place of the picture. */
-  const setVid = (v, img, n) => { v.pause(); v.style.display = 'none'; v.onloadeddata = () => { v.style.display = 'block'; img.style.display = 'none'; v.play().catch(() => {}); }; v.onerror = () => { v.style.display = 'none'; }; v.src = 'videos/' + slug(n) + '.mp4'; v.load(); };
+  const setVid = (v, img, n) => { const ph = document.getElementById(v.id.replace('Vid', 'Ph')); const showPh = on => { if (ph) ph.style.display = on ? '' : 'none'; };
+    v.pause(); v.style.display = 'none'; showPh(true); img.onload = () => showPh(false);
+    v.onloadeddata = () => { v.style.display = 'block'; img.style.display = 'none'; showPh(false); v.play().catch(() => {}); };
+    v.onerror = () => { v.style.display = 'none'; }; v.src = 'videos/' + slug(n) + '.mp4'; v.load(); };
   function openEx(e) {
     $('exImg').style.display = ''; $('exImg').src = demoSrc(e[0]); $('exImg').alt = 'Demo of ' + e[0]; setVid($('exVid'), $('exImg'), e[0]);
     $('exName').textContent = e[0]; $('exReps').textContent = e[1]; $('exTip').textContent = e[2];
