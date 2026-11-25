@@ -1,5 +1,5 @@
 // Bump VERSION whenever you change any file, so phones fetch the update.
-const VERSION = 'calvin-effect-v2';
+const VERSION = 'calvin-effect-v3';
 const FILES = ['./','index.html','style.css','app.js','manifest.json','logo.png','icon-192.png','icon-512.png','icon-maskable-512.png','apple-touch-icon.png'];
 self.addEventListener('install', e => {
   // cache:'reload' skips the browser's own HTTP cache, so a new version never installs old files

@@ -1,57 +1,57 @@
 'use strict';
-window.EMOM_JS = 'calvin2';
+window.EMOM_JS = 'calvin3';
 /* ---------- Workout data (edit reps here) ---------- */
 const PROGRAMMES = {
   beginner: { label: 'BEGINNER', sw: 'ANZA', workouts: [
-    { id: 'B1', name: 'Mwili Mzima Rahisi', desc: 'Miguu, kifua na tumbo kwa kuanza.', ex: [
-      ['Bodyweight squats', '10 reps', 'Simama upana wa mabega, shuka taratibu. Magoti yaelekee upande wa vidole.'],
-      ['Wall push-ups', '8 reps', 'Simama karibu na ukuta na sukuma mwili taratibu. Karibia ukuta ili iwe rahisi.'],
-      ['Glute bridges', '12 reps', 'Lala chali, inua nyonga juu na ubane makalio, kisha shuka taratibu.'],
-      ['Dead bugs', '5 per side', 'Lala chali. Sogeza mkono na mguu wa upande tofauti taratibu, mgongo wa chini usiinuke.']]},
-    { id: 'B2', name: 'Miguu & Tumbo', desc: 'Nguvu ya miguu na utulivu wa mwili.', ex: [
-      ['Reverse lunges', '6 per leg', 'Rudisha mguu nyuma, shuka kidogo kisha simama. Mwili ubaki wima.'],
-      ['Standing calf raises', '12 reps', 'Inuka kwa vidole taratibu na ushuke kwa udhibiti.'],
-      ['Bird dogs', '5 per side', 'Nyoosha mkono na mguu wa upande tofauti bila kuzungusha nyonga.'],
-      ['Forearm plank', '20 seconds', 'Mwili uwe mstari mmoja kutoka kichwani hadi miguuni. Usiinue makalio.']]},
-    { id: 'B3', name: 'Kifua & Mgongo', desc: 'Mazoezi mepesi ya sehemu ya juu ya mwili.', ex: [
-      ['Knee push-ups', '6 reps', 'Magoti chini, mwili mstari mmoja kutoka magotini hadi kichwani.'],
-      ['Superman raises', '8 reps', 'Lala kifudifudi, inua mikono na miguu kidogo na ushuke taratibu.'],
-      ['Sumo squats', '10 reps', 'Miguu mipana kuliko mabega, vidole vielekee nje kidogo.'],
-      ['Mountain climbers', '8 per side', 'Anza taratibu, leta goti moja kifuani kisha ubadilishe.']]}
+    { id: 'B1', name: 'Mwili wa Juu (Mashine)', desc: 'Kifua, mgongo na mabega kwa mashine.', ex: [
+      ['Chest press machine', '10 reps', 'Kaa na mgongo ukigusa kiti, sukuma mbele bila kunyoosha viwiko kabisa. Chagua uzito mwepesi unaoumudu.'],
+      ['Lat pulldown', '10 reps', 'Vuta bar hadi kifuani juu, kaza mgongo na shuka taratibu. Usivute kwa mgongo ukiinama sana.'],
+      ['Seated cable row', '10 reps', 'Kaa wima, vuta kuelekea tumboni na ubane mabega nyuma kisha rudisha taratibu.'],
+      ['Machine shoulder press', '10 reps', 'Sukuma juu bila kuinua mabega kuelekea masikioni. Shuka kwa udhibiti.']]},
+    { id: 'B2', name: 'Miguu (Mashine)', desc: 'Nguvu ya miguu kwa mashine, salama kwa mwanzo.', ex: [
+      ['Leg press', '12 reps', 'Miguu upana wa mabega kwenye platform, shusha hadi magoti yapinde vizuri, sukuma bila kufunga magoti kabisa.'],
+      ['Leg extension', '12 reps', 'Nyoosha miguu juu, shikilia sekunde moja na shuka taratibu.'],
+      ['Seated leg curl', '12 reps', 'Vuta kisigino kuelekea makalio, rudisha kwa udhibiti.'],
+      ['Standing calf raises', '15 reps', 'Inuka juu kwa vidole hadi mwisho, shuka taratibu hadi kisigino kishuke.']]},
+    { id: 'B3', name: 'Mikono & Tumbo', desc: 'Dumbbells nyepesi na cable.', ex: [
+      ['Dumbbell bicep curls', '10 reps', 'Viwiko vibaki pembeni ya mwili, inua dumbbell bila kuyumba mwili.'],
+      ['Triceps rope pushdown', '10 reps', 'Viwiko vibaki pembeni, sukuma chini na nyoosha mikono kisha rudi juu taratibu.'],
+      ['Dumbbell lateral raises', '10 reps', 'Inua mikono pembeni hadi usawa wa mabega, kwa uzito mwepesi na bila kuyumba.'],
+      ['Cable crunches', '12 reps', 'Pindisha tumbo chini kwa kubana misuli ya tumbo, sio kuvuta kwa mikono.']]}
   ]},
   intermediate: { label: 'INTERMEDIATE', sw: 'KATI', workouts: [
-    { id: 'I1', name: 'Push & Squat', desc: 'Kusukuma, miguu na tumbo.', ex: [
-      ['Push-ups', '12 reps', 'Mwili mstari mmoja. Shusha kifua hadi karibu na sakafu kisha sukuma.'],
-      ['Jumping squats', '12 reps', 'Ruka juu kisha tua taratibu na uingie kwenye rep inayofuata.'],
-      ['Reverse lunges', '10 per leg', 'Hatua kubwa nyuma, goti la nyuma lishuke karibu na sakafu.'],
-      ['Forearm plank', '30 seconds', 'Bana tumbo na makalio, pumua kawaida.']]},
-    { id: 'I2', name: 'Core & Mabega', desc: 'Tumbo imara na mabega yenye nguvu.', ex: [
-      ['Pike push-ups', '8 reps', 'Makalio juu kama V, shusha kichwa kuelekea sakafu kisha sukuma.'],
-      ['Mountain climbers', '15 per side', 'Kasi ya wastani, mgongo ubaki mnyoofu.'],
-      ['Lying leg raises', '12 reps', 'Bonyeza mgongo wa chini sakafuni, shusha miguu taratibu.'],
-      ['Diamond push-ups', '8 reps', 'Mikono pamoja chini ya kifua, viwiko karibu na mbavu.']]},
-    { id: 'I3', name: 'Miguu & Mgongo', desc: 'Makalio, miguu na mgongo.', ex: [
-      ['Sumo squats', '15 reps', 'Miguu mipana, shuka kwa udhibiti na usimame wima.'],
-      ['Single-leg glute bridges', '8 per leg', 'Mguu mmoja juu, inua nyonga bila kuzungusha mwili.'],
-      ['Superman raises', '12 reps', 'Shikilia sekunde moja juu kisha shuka.'],
-      ['Push-ups', '10 reps', 'Zingatia umbo, sio kasi.']]}
+    { id: 'I1', name: 'Push (Kifua, Mabega, Triceps)', desc: 'Dumbbells na cable kwa kusukuma.', ex: [
+      ['Dumbbell bench press', '10 reps', 'Shusha dumbbells hadi pembeni ya kifua, sukuma juu na ubane kifua. Tumia spotter kama uzito ni mzito.'],
+      ['Incline dumbbell press', '10 reps', 'Benchi lipandishwe kidogo (digrii 30 hadi 45). Zingatia kifua cha juu.'],
+      ['Dumbbell shoulder press', '8 reps', 'Kaa wima, sukuma juu bila kuvimbisha mgongo wa chini.'],
+      ['Triceps rope pushdown', '12 reps', 'Viwiko pembeni, nyoosha kikamilifu chini na shikilia kidogo.']]},
+    { id: 'I2', name: 'Pull (Mgongo & Biceps)', desc: 'Mgongo mpana na mikono imara.', ex: [
+      ['Lat pulldown', '10 reps', 'Vuta kuelekea kifuani juu, kaza mgongo, shuka kwa udhibiti.'],
+      ['One-arm dumbbell row', '10 per side', 'Mkono na goti moja kwenye benchi, vuta dumbbell kuelekea nyonga, mgongo ubaki sawa.'],
+      ['Face pulls', '12 reps', 'Vuta kamba kuelekea uso, viwiko juu, bana mabega nyuma.'],
+      ['Barbell biceps curls', '10 reps', 'Viwiko pembeni, inua bar bila kuyumba mwili.']]},
+    { id: 'I3', name: 'Miguu (Free Weights)', desc: 'Squats na lunges kwa uzito wa wastani.', ex: [
+      ['Goblet squats', '10 reps', 'Shika dumbbell kifuani, shuka hadi mapaja yawe sambamba na sakafu, kifua juu.'],
+      ['Romanian deadlifts', '10 reps', 'Dumbbells au bar, nyonga nyuma na mgongo mnyoofu, shuka hadi uhisi paja la nyuma likinyooka.'],
+      ['Walking lunges', '8 per leg', 'Hatua ndefu mbele, shuka goti la nyuma karibu na sakafu na simama.'],
+      ['Seated calf raises', '15 reps', 'Inua kisigino juu kwa udhibiti na shikilia sekunde moja.']]}
   ]},
   pro: { label: 'PROFESSIONAL', sw: 'PRO', workouts: [
-    { id: 'P1', name: 'Nguvu ya Juu', desc: 'Kuvuta, kusukuma na miguu. Unahitaji bar.', ex: [
-      ['Pull-ups', '6 reps', "Anza ukining'inia, vuta kidevu juu ya bar. Usiyumbe."],
-      ['Diamond push-ups', '12 reps', 'Viwiko karibu na mwili, shuka na usukume kwa nguvu.'],
-      ['Jumping lunges', '10 per leg', 'Badilisha miguu hewani na utue taratibu.'],
-      ['Hanging leg raises', '8 reps', 'Inua miguu kwa tumbo, bila kuyumba.']]},
-    { id: 'P2', name: 'Core ya Chuma', desc: 'Tumbo, mabega na miguu kwa wenye uzoefu.', ex: [
-      ['Archer push-ups', '5 per side', 'Mikono mipana, shusha mwili kuelekea mkono mmoja huku mwingine umenyooka.'],
-      ['Bulgarian split squats', '8 per leg', 'Mguu wa nyuma juu ya kiti, shuka moja kwa moja.'],
-      ['Mountain climbers', '20 per side', 'Kasi ya juu, makalio yasipande.'],
-      ['Hanging leg raises', '10 reps', 'Dhibiti kushuka, usiyumbe.']]},
-    { id: 'P3', name: 'Mwili Mzima Pro', desc: 'Mazoezi ya kasi kwa mwili mzima.', ex: [
-      ['Burpees', '10 reps', 'Shuka chini, push-up, ruka juu. Endelea bila kupumzika.'],
-      ['Pull-ups', '6 reps', 'Vuta kwa udhibiti, shuka kikamilifu.'],
-      ['Pike push-ups', '10 reps', 'Makalio juu, shusha kichwa karibu na sakafu.'],
-      ['Jumping squats', '20 reps', 'Tua taratibu, uruke tena mara moja.']]}
+    { id: 'P1', name: 'Kifua & Triceps (Mzito)', desc: 'Barbell na uzito mzito. Tumia spotter.', ex: [
+      ['Barbell bench press', '6 reps', 'Shusha bar hadi kifuani kwa udhibiti, sukuma juu kwa nguvu. Usitumie uzito bila spotter.'],
+      ['Incline dumbbell press', '8 reps', 'Kifua cha juu, sukuma na ubane juu kidogo.'],
+      ['Cable chest flys', '12 reps', 'Viwiko vimepinda kidogo, kutanisha mikono mbele na ubane kifua.'],
+      ['Weighted dips', '8 reps', 'Shuka hadi mabega yawe sawa na viwiko, sukuma juu bila kuinua mabega.']]},
+    { id: 'P2', name: 'Mgongo & Biceps (Mzito)', desc: 'Deadlift na kuvuta kwa nguvu.', ex: [
+      ['Barbell deadlifts', '5 reps', 'Mgongo mnyoofu, vuta bar karibu na miguu hadi usimame, shuka kwa udhibiti. Zingatia umbo kuliko uzito.'],
+      ['Pull-ups', '8 reps', 'Vuta kidevu juu ya bar, shuka kikamilifu. Weka uzito wa ziada ikiwa ni rahisi.'],
+      ['Barbell bent-over rows', '8 reps', 'Mwili uinamishwe mbele na mgongo mnyoofu, vuta bar hadi tumboni.'],
+      ['Hammer curls', '10 reps', 'Viganja vitazamane, inua dumbbells bila kuyumba.']]},
+    { id: 'P3', name: 'Miguu & Mabega (Mzito)', desc: 'Squat nzito na overhead press.', ex: [
+      ['Barbell back squats', '6 reps', 'Bar juu ya mabega ya nyuma, shuka hadi mapaja sambamba na sakafu, simama kwa nguvu. Tumia rack na spotter.'],
+      ['Romanian deadlifts', '8 reps', 'Nyonga nyuma, bar karibu na miguu, mgongo mnyoofu.'],
+      ['Leg press', '12 reps', 'Uzito mzito, shusha kwa udhibiti na sukuma bila kufunga magoti.'],
+      ['Barbell overhead press', '6 reps', 'Simama wima, sukuma bar juu ya kichwa na bana tumbo ili mgongo usipinde.']]}
   ]}
 };
 /* ---------- Advanced workouts (v6) ----------
